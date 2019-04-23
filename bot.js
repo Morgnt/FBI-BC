@@ -1,62 +1,49 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-var prefix = ".";
-client.on('message', message => { // Leaked by [ @M3a4x ]
-   if(!message.channel.guild) return;
-if(message.content.startsWith(prefix + 'bc')) {
-if(!message.channel.guild) return message.channel.send('**هذا الأمر فقط للسيرفرات**').then(m => m.delete(5000));
-if(!message.member.hasPermission('ADMINISTRATOR')) return
-const args = message.content.split(" ").slice(1).join(" ")
-const BcList = new Discord.RichEmbed()
-.setThumbnail(message.author.avatarURL)
-.setAuthor(`محتوى الرساله : ${args}`)
-.setDescription(`**برودكاست بـ امبد 📝\nبرودكاست بدون امبد✏ \nلديك دقيقه للأختيار قبل الغاء البرودكاست**`)
-if (!args) return message.reply('**يجب عليك كتابة كلمة او جملة لإرسال البرودكاست**');message.channel.send(BcList).then(msg => {
-msg.react('📝')
-.then(() => msg.react('✏'))
-.then(() =>msg.react('📝'))
- 
-var EmbedBcFilter = (reaction, user) => reaction.emoji.name === '📝' && user.id === message.author.id;
-var NormalBcFilter = (reaction, user) => reaction.emoji.name === '✏' && user.id === message.author.id;
- 
-var EmbedBc = msg.createReactionCollector(EmbedBcFilter, { time: 60000 });
-var NormalBc = msg.createReactionCollector(NormalBcFilter, { time: 60000 });
- 
- 
-EmbedBc.on("collect", r => {
- 
-message.channel.send(`:ballot_box_with_check: تم ارسال الرساله بنجاح`).then(m => m.delete(5000));
-message.guild.members.forEach(m => {
-var EmbedRep = args.replace('<server>' ,message.guild.name).replace('<user>', m).replace('<by>', `${message.author.username}#${message.author.discriminator}`)
-var bc = new
-Discord.RichEmbed()
-.setColor('RANDOM')
-.setDescription(EmbedRep)
-.setThumbnail(message.author.avatarURL)
-m.send({ embed: bc })
-msg.delete();
-})
-})
-NormalBc.on("collect", r => {
-  message.channel.send(`:ballot_box_with_check: تم ارسال الرساله بنجاح`).then(m => m.delete(5000));
-message.guild.members.forEach(m => {
-var NormalRep = args.replace('<server>' ,message.guild.name).replace('<user>', m).replace('<by>', `${message.author.username}#${message.author.discriminator}`)
-m.send(NormalRep);
-msg.delete();
-})
-})
-})
-}
+var prefix = "!";
+
+client.on('ready', () => {//log
+  console.log('')
+  console.log('')
+  console.log('╔[═════════════════════════════════════════════════════════════════]╗')
+  console.log(`[Start] ${new Date()}`);
+  console.log('╚[═════════════════════════════════════════════════════════════════]╝')
+  console.log('')
+  console.log('╔[════════════════════════════════════]╗');
+  console.log(`Logged in as * [ " ${client.user.tag}} " ]`);
+  console.log('')
+  console.log('Informations :')
+  console.log('')
+  console.log(`servers! [ " ${client.guilds.size} " ]`);
+  console.log(`Users! [ " ${client.users.size} " ]`);
+  console.log(`channels! [ " ${client.channels.size} " ]`);
+  console.log('╚[════════════════════════════════════]╝')
+  console.log('')
+  console.log('╔[════════════]╗')
+  console.log(' Bot Is Online')
+  console.log('╚[════════════]╝')
+  console.log('')
+  console.log('')
+  client.user.setGame(`#soon`)
+  client.user.setStatus("idle");
+  client.user.setGame("FBI BC","http://twitch.tv/Sadat%22")
+
 });
 
-client.on('ready', () => {
-   console.log(`----------------`);
-      console.log(`ولا يهمك هنا `);
-        console.log(`----------------`);
-      console.log(`ON ${client.guilds.size} Servers '     لا يهمك ^^ ' `);
-    console.log(`----------------`);
-  console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`FBI BC`,"http://twitch.tv/Sadat")
-client.user.setStatus("dnd")
+
+
+  client.on("message", message => {//bc1
+
+            if (message.content.startsWith(prefix + "bc")) {
+                         if (!message.member.hasPermission("ADMINISTRATOR"))  return;
+  let args = message.content.split(" ").slice(1);
+  var argresult = args.join(' '); 
+  message.guild.members.filter(m => m.presence.status !== 'all').forEach(m => {
+ m.send(`${argresult}\n ${m}`);
+})
+ message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'all').size}\` : عدد الاعضاء المستلمين`); 
+ message.delete(); 
+};     
 });
-client.login(process.env.BOT_TOKEN);// لا تغير فيها شيء
+
+client.login(process.env.BOT_TOKEN);
