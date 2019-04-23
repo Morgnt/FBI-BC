@@ -48,4 +48,15 @@ msg.delete();
 })
 }
 });
+
+client.on('ready', () => {
+   console.log(`----------------`);
+      console.log(`ولا يهمك هنا `);
+        console.log(`----------------`);
+      console.log(`ON ${client.guilds.size} Servers '     لا يهمك ^^ ' `);
+    console.log(`----------------`);
+  console.log(`Logged in as ${client.user.tag}!`);
+client.user.setGame(`FBI BC`,"http://twitch.tv/Sadat")
+client.user.setStatus("dnd")
+});
 client.login(process.env.BOT_TOKEN);// لا تغير فيها شيء
